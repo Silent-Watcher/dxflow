@@ -56,8 +56,7 @@ function evaluateBodyContainsExpectation(
 		const description = `body.${key} should equal ${JSON.stringify(expectedValue)}`;
 
 		if (
-			!response ||
-			!response.isJson ||
+			!response?.isJson ||
 			typeof response.body !== "object" ||
 			response.body === null
 		) {

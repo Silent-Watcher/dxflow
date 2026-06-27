@@ -3,10 +3,12 @@ import type { ScenarioReport, StepResult } from "../types.js";
 
 /** Renders a self-contained HTML report (inline CSS, inline SVG chart, no external assets). */
 export function renderHtmlReport(report: ScenarioReport): string {
-  const rows = report.steps.map((step, index) => renderStepRow(step, index)).join("\n");
-  const chart = renderTimingChart(report.steps);
+	const rows = report.steps
+		.map((step, index) => renderStepRow(step, index))
+		.join("\n");
+	const chart = renderTimingChart(report.steps);
 
-  return `<!DOCTYPE html>
+	return `<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -108,14 +110,14 @@ ${rows}
 }
 
 function renderStepRow(step: StepResult, index: number): string {
-  const statusLabel = step.response ? String(step.response.status) : "ERR";
-  const resultClass = step.success ? "status-pass" : "status-fail";
-  const resultLabel = step.success ? "PASS" : "FAIL";
-  const errorBlock = step.error
-    ? `<div class="error-detail">${escapeHtml(step.error)}</div>`
-    : "";
+	const statusLabel = step.response ? String(step.response.status) : "ERR";
+	const resultClass = step.success ? "status-pass" : "status-fail";
+	const resultLabel = step.success ? "PASS" : "FAIL";
+	const errorBlock = step.error
+		? `<div class="error-detail">${escapeHtml(step.error)}</div>`
+		: "";
 
-  return `      <tr>
+	return `      <tr>
         <td>${index + 1}</td>
         <td>${escapeHtml(step.name ?? step.id)}</td>
         <td>${escapeHtml(step.request.method)}</td>
@@ -127,45 +129,54 @@ function renderStepRow(step: StepResult, index: number): string {
 }
 
 function renderTimingChart(steps: StepResult[]): string {
-  if (steps.length === 0) {
-    return "<p>No steps were executed.</p>";
-  }
+	if (steps.length === 0) {
+		return "<p>No steps were executed.</p>";
+	}
 
-  const width = 720;
-  const barHeight = 28;
-  const gap = 8;
-  const labelWidth = 160;
-  const chartWidth = width - labelWidth - 80;
-  const height = steps.length * (barHeight + gap);
-  const maxDuration = Math.max(...steps.map((step) => step.timing.durationMs), 1);
+	const width = 720;
+	const barHeight = 28;
+	const gap = 8;
+	const labelWidth = 160;
+	const chartWidth = width - labelWidth - 80;
+	const height = steps.length * (barHeight + gap);
+	const maxDuration = Math.max(
+		...steps.map((step) => step.timing.durationMs),
+		1,
+	);
 
-  const bars = steps
-    .map((step, index) => {
-      const y = index * (barHeight + gap);
-      const barWidth = Math.max((step.timing.durationMs / maxDuration) * chartWidth, 2);
-      const color = step.success ? "#16a34a" : "#dc2626";
-      const label = escapeHtml(step.name ?? step.id);
-      return `
+	const bars = steps
+		.map((step, index) => {
+			const y = index * (barHeight + gap);
+			const barWidth = Math.max(
+				(step.timing.durationMs / maxDuration) * chartWidth,
+				2,
+			);
+			const color = step.success ? "#16a34a" : "#dc2626";
+			const label = escapeHtml(step.name ?? step.id);
+			return `
     <text x="0" y="${y + barHeight / 2 + 4}" font-size="12" fill="#0f172a">${label}</text>
     <rect x="${labelWidth}" y="${y}" width="${barWidth.toFixed(1)}" height="${barHeight}" fill="${color}" rx="4" />
     <text x="${labelWidth + barWidth + 8}" y="${y + barHeight / 2 + 4}" font-size="12" fill="#64748b">${step.timing.durationMs}ms</text>`;
-    })
-    .join("");
+		})
+		.join("");
 
-  return `<svg viewBox="0 0 ${width} ${height}" width="100%" height="${height}" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">${bars}
+	return `<svg viewBox="0 0 ${width} ${height}" width="100%" height="${height}" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif">${bars}
   </svg>`;
 }
 
 function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+	return value
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#39;");
 }
 
 /** Writes the HTML report to the given file path, creating/overwriting it. */
-export async function writeHtmlReport(report: ScenarioReport, outputPath: string): Promise<void> {
-  await writeFile(outputPath, renderHtmlReport(report), "utf-8");
+export async function writeHtmlReport(
+	report: ScenarioReport,
+	outputPath: string,
+): Promise<void> {
+	await writeFile(outputPath, renderHtmlReport(report), "utf-8");
 }

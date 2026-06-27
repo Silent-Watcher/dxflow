@@ -1,8 +1,8 @@
 # DXFlow
 
-[![npm version](https://img.shields.io/npm/v/dx-flow.svg)](https://www.npmjs.com/package/dx-flow)
-[![license](https://img.shields.io/npm/l/dx-flow.svg)](./LICENSE)
-[![node](https://img.shields.io/node/v/dx-flow.svg)](https://www.npmjs.com/package/dx-flow)
+[![npm version](https://img.shields.io/npm/v/dxflow.svg)](https://www.npmjs.com/package/dxflow)
+[![license](https://img.shields.io/npm/l/dxflow.svg)](./LICENSE)
+[![node](https://img.shields.io/node/v/dxflow.svg)](https://www.npmjs.com/package/dxflow)
 
 A CLI tool for defining multi-step API request scenarios in a YAML/JSON manifest, running them in order while threading response data from one request into the next, and generating timing/correctness reports (console, JSON, HTML).
 

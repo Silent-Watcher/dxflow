@@ -1,6 +1,6 @@
 {
 	"name": "dxflow",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"description": "CLI tool for defining multi-step API request scenarios in YAML/JSON manifests and generating performance/correctness reports.",
 	"type": "module",
 	"main": "./dist/index.mjs",

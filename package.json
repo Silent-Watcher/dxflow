@@ -1,0 +1,60 @@
+{
+    "name": "dxflow",
+    "version": "0.0.0",
+    "description": "CLI tool for defining multi-step API request scenarios in YAML/JSON manifests and generating performance/correctness reports.",
+    "type": "module",
+    "main": "./dist/index.mjs",
+    "types": "./dist/index.d.mts",
+    "bin": {
+        "dxflow": "./dist/cli.mjs"
+    },
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.mts",
+            "import": "./dist/index.mjs"
+        }
+    },
+    "files": [
+        "dist",
+        "examples"
+    ],
+    "engines": {
+        "node": ">=22.0.0"
+    },
+    "scripts": {
+        "build": "tsdown",
+        "dev": "tsdown --watch",
+        "test": "node --import tsx --test",
+        "test:watch": "node --import tsx --test --watch",
+        "test:coverage": "node --import tsx --experimental-test-coverage --test-coverage-exclude=\"dist/**\" --test-coverage-exclude=\"**/*.test.ts\" --test",
+        "typecheck": "tsc --noEmit",
+        "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
+        "lint": "tsc --noEmit",
+        "prepublishOnly": "npm run typecheck && npm run typecheck:test && npm test && npm run build"
+    },
+    "keywords": [
+        "api",
+        "api-testing",
+        "cli",
+        "performance",
+        "scenario",
+        "load-testing",
+        "yaml",
+        "http",
+        "rest",
+        "testing",
+        "dx"
+    ],
+    "author": "Your Name <you@example.com>",
+    "license": "MIT",
+    "dependencies": {
+        "yaml": "^2.9.0",
+        "zod": "^4.4.3"
+    },
+    "devDependencies": {
+        "@types/node": "^26.0.1",
+        "tsdown": "^0.22.3",
+        "tsx": "^4.22.4",
+        "typescript": "^6.0.3"
+    }
+}

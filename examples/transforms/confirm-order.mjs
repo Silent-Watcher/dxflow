@@ -4,9 +4,9 @@
  * control" escape hatch for cases that simple {{...}} templates can't express.
  */
 export function buildConfirmRequest(ctx) {
-  const orderId = ctx.steps.createOrder.body.orderId;
-  return {
-    path: `/orders/${orderId}`,
-    query: { verbose: "true" },
-  };
+	const orderId = ctx.steps.createOrder.body.orderId;
+	return {
+		path: `/orders/${orderId}`,
+		query: { verbose: "true" },
+	};
 }

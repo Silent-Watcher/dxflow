@@ -1,0 +1,39 @@
+name: Checkout flow
+baseUrl: https://api.example.com
+defaultHeaders:
+  X-Client: dx-flow-demo
+
+vars:
+  customerName: Ada Lovelace
+
+steps:
+  - id: createUser
+    name: Create user account
+    method: POST
+    path: /users
+    body:
+      name: "{{vars.customerName}}"
+    expect:
+      status: 201
+
+  - id: createOrder
+    name: Create an order for the new user
+    method: POST
+    path: /orders
+    headers:
+      Authorization: "Bearer {{steps.createUser.body.token}}"
+    body:
+      userId: "{{steps.createUser.body.id}}"
+      items:
+        - sku: WIDGET-1
+          qty: 2
+    expect:
+      status: 201
+
+  - id: confirmOrder
+    name: Confirm the order (uses a custom transform)
+    method: GET
+    path: /orders/placeholder
+    transform: ./transforms/confirm-order.mjs#buildConfirmRequest
+    expect:
+      status: 200

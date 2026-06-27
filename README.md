@@ -144,47 +144,4 @@ const report = await runScenario(manifest, { manifestPath: "./scenario.yaml" });
 console.log(report.success, report.summary);
 ```
 
-## Project layout
-
-```
-src/
-  manifest/    YAML/JSON loading + zod schema validation
-  template/     {{steps.x.body.y}} resolution
-  transform/    dynamic import() of "path#exportName" custom step logic
-  runner/       HTTP client (fetch + timing), step + scenario orchestration, expectations
-  report/       console / JSON / HTML report rendering
-  cli.ts        argument parsing + wiring
-  index.ts      public programmatic API
-```
-
-## Contributing / local development
-
-Clone the repo, then:
-
-```bash
-npm install
-npm run build             # bundles src/ into dist/ via tsdown
-npm test                  # run the full test suite (node:test)
-npm run test:watch        # same, in watch mode
-npm run test:coverage     # run with --experimental-test-coverage
-npm run typecheck         # typecheck src/ (excludes tests)
-npm run typecheck:test    # typecheck src/ including *.test.ts
-```
-
 Current coverage: ~98.6% lines / ~93.6% branches / ~96.8% functions across `src/` (excluding test files and the build output).
-
-## Publishing (maintainers)
-
-```bash
-npm version <patch|minor|major>
-npm publish
-```
-
-`npm publish` runs `prepublishOnly` automatically, which typechecks (source and tests), runs the full test suite, and rebuilds `dist/` — publishing is blocked if any step fails. Only `dist/`, `examples/`, `README.md`, `LICENSE`, and `package.json` are included in the published tarball (see the `files` field); `src/` and tests are not shipped.
-
-**Before the first publish**, replace the placeholders still in this repo:
-- `package.json`: `author`, `repository.url`, `bugs.url`, `homepage`
-- `LICENSE`: copyright holder name
-- The package name `dx-flow` is currently unclaimed on the npm registry (confirmed at the time this was written) — if you want a different name, update it in `package.json`, the `bin` entry stays `dxflow` independently and doesn't need to match.
-
-You'll also need an npm account and to run `npm login` once before `npm publish` will work.

@@ -1,4 +1,4 @@
-# dx-flow
+# DXFlow
 
 [![npm version](https://img.shields.io/npm/v/dx-flow.svg)](https://www.npmjs.com/package/dx-flow)
 [![license](https://img.shields.io/npm/l/dx-flow.svg)](./LICENSE)
@@ -13,20 +13,20 @@ Testing a real-world API flow usually means: call endpoint A, grab something fro
 ## Install
 
 ```bash
-npm install -g dx-flow
+npm install -g dxflow
 dxflow run scenario.yaml
 ```
 
 Or run it without a global install, via `npx` (the package name is `dx-flow`, the command it installs is `dxflow`):
 
 ```bash
-npx -p dx-flow dxflow run scenario.yaml
+npx dxflow run scenario.yaml
 ```
 
 To use it as a library in your own Node project instead:
 
 ```bash
-npm install dx-flow
+npm install dxflow
 ```
 
 (See [Programmatic API](#programmatic-api) below.)
